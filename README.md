@@ -1,4 +1,4 @@
 # Elevia
 
-Uo**via Ele**ctron Structure Program
+Uovie Electronic Structure Program
 
