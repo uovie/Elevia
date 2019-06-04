@@ -16,7 +16,7 @@ void print(int argc, char *argv[FILENAME_MAX])
         << number << ", Charge: " << charge << ", Spin Multi: " << spin << ".\n";
     chk << "\n2. Configuration Infomation\n";
     for (auto it = molecule.begin(); it != molecule.end(); it++) {
-        chk << (*it).label;
+        chk << (*it).sym;
         for (int i = 0; i < 3; i++) {
             if ((*it).r[i] >= 0) { chk << "    "; }
             else { chk << "   "; }

@@ -19,7 +19,7 @@ extern int charge;              // molecular charge
 extern int spin;                // spin multiplicity
 
 struct atom {
-    std::string label;          // atomic label
+    std::string sym;          // atomic label
     int atom_num;               // atomic number
     double r[3];                // atomic position
 };
