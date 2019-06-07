@@ -1,0 +1,89 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{geometry}
+\usepackage{fontspec}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{braket}
+\usepackage{IEEEtrantools}
+\usepackage[T1]{fontenc}
+\usepackage[cmintegrals]{newtxmath}
+\usepackage{bm}
+
+\geometry{a4paper,left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
+
+\setmainfont{Times New Roman}
+\setsansfont{DejaVu Sans}
+\setmonofont{Latin Modern Mono}
+
+% define the title
+\title{Basis Set (Atomic Orbitals)}
+\author{Haoyu Lin (1801110300)}
+\date{\today}
+
+\bibliographystyle{unsrt}
+
+\begin{document}
+	
+	% generates the title
+	\maketitle
+	
+	\section{Introduction}
+	We write an normalized primitive Cartesian Gaussian function centered at $mathbf{R}$ as
+	\begin{equation}
+		g(\mathbf{r}; \zeta, \mathbf{n}, \mathbf{R}) = N(\zeta, \mathbf{n}) \left(x-R_{x}\right)^{n_{x}} \left(y-R_{y}\right)^{n_{y}} \left(z-R_{z}\right)^{n_{z}} \exp \left[ -\zeta (\mathbf{r} - \mathbf{R})^2 \right],
+	\end{equation}
+	where $\mathbf{r}$ is the coordinate vector of the electron, $\zeta$ is the orbital exponent, and n is a set of non-negative integers. The sum of $n_{x}$, $n_{y}$, and $n_{z}$ will be denoted $\lambda(n)$ and be referred to as the angular momentum or orbital quantum number of the Gaussian function. $N(\zeta, \mathbf{n})$ is the normalization coefficient, which can be obtained through the equation
+	\begin{equation}
+		\int_{-\infty}^{\infty} x^{n} e^{-\zeta x^{2}} d x = \left\{
+		\begin{array}{ll}
+			2^{-(n-1)/2} \zeta^{-(n+1)/2}(n-1)!! & {\text{    for odd } n,} \\
+			2^{-n/2} \pi^{1/2} \zeta^{-(n+1)/2}(n-1)!! & {\text{    for even } n.}
+		\end{array}\right.
+		\label{eq: one-dimensional Gaussian integral}
+	\end{equation}
+	By virtue of the Eq.\eqref{eq: one-dimensional Gaussian integral}, we have
+	\begin{equation}
+		N(\zeta, \mathbf{n}) = \left(\frac{2}{\pi}\right)^{3 / 4} \frac{2^{\lambda(\mathbf{n})} \zeta^{(2 \lambda(\mathbf{n})+3) / 4}}{\left[\left(2 n_{x}-1\right) ! !\left(2 n_{y}-1\right) ! !\left(2 n_{z}-1\right) ! !\right]^{1 / 2}}.
+	\end{equation}
+	
+	A contracted Gaussian function is just a linear combination of primitive Gaussians (also termed primitives) centered at the same center $\mathbf{A}$ and with the same momentum indices $\mathbf{n}$ but with different exponents $\zeta_i$:
+	\begin{equation}
+		g(\mathbf{r}; \boldsymbol{\zeta}, \mathbf{n}, \mathbf{c}, \mathbf{R}) = \left(x-R_{x}\right)^{n_{x}} \left(y-R_{y}\right)^{n_{y}} \left(z-R_{z}\right)^{n_{z}} \sum_{i=1}^{M} C_i \exp \left[ -\zeta_i (\mathbf{r} - \mathbf{R})^2 \right],
+	\end{equation}
+	where $C_i = c_i N(\zeta_i, \mathbf{n})$ is the normalization-including contraction coefficient, and $c_i$ is the corresponding contraction coefficient.
+	
+	\section{Product of GTOs}
+	The GTOs have an outstanding feature (along with the square dependence in the exponent),
+	which decides about their importance in quantum chemistry. The product of two Gaussian-type 1s orbitals (even if they have different centers) is a single Gaussian-type 1s orbital.
+	\begin{equation}
+		\exp \left[ -\zeta_a (\mathbf{r} - \mathbf{R}_a)^{2} \right] \exp \left[ -\zeta_b (\mathbf{r} - \mathbf{R}_b)^{2} \right] = N \exp \left[-\zeta (\mathbf{r}-\mathbf{R})^{2}\right],
+	\end{equation}
+	with parameters
+	\begin{IEEEeqnarray}{rCl}
+		\zeta &=& \zeta_a + \zeta_b, \nonumber \\
+		\mathbf{R} &=& (\zeta_a \mathbf{R}_a + \zeta_b \mathbf{R}_b) / \zeta, \nonumber \\
+		N &=& \exp \left[\zeta \mathbf{R}^2 - \left(\zeta_a \mathbf{R}_a^2 + \zeta_b \mathbf{R}_b^2 \right)\right].
+	\end{IEEEeqnarray}
+	And multiplying recursively, three and higher-fold products are derived:
+	\begin{equation}
+		\exp \left[ -\zeta_a (\mathbf{r} - \mathbf{R}_a)^{2} \right] \exp \left[ -\zeta_b (\mathbf{r} - \mathbf{R}_b)^{2} \right] \exp \left[ -\zeta_c (\mathbf{r} - \mathbf{R}_c)^{2} \right] = N \exp \left[-\zeta (\mathbf{r}-\mathbf{R})^{2}\right],
+	\end{equation}
+	with parameters
+	\begin{IEEEeqnarray}{rCl}
+		\zeta &=& \zeta_a + \zeta_b + \zeta_c, \nonumber \\
+		\mathbf{R} &=& (\zeta_a \mathbf{R}_a + \zeta_b \mathbf{R}_b + \zeta_c \mathbf{R}_c) / \zeta, \nonumber \\
+		N &=& \exp \left[\zeta \mathbf{R}^2 - \left(\zeta_a \mathbf{R}_a^2 + \zeta_b \mathbf{R}_b^2 + \zeta_c \mathbf{R}_c^2\right)\right],
+	\end{IEEEeqnarray}
+	and so forth.
+	
+	\subsection{Differential Relation}
+	
+	\begin{equation}
+		\frac{\partial}{\partial r_i} g(\mathbf{r}; \zeta, \mathbf{n}, \mathbf{R}) = n_i g(\mathbf{r}; \zeta, \mathbf{n}-\mathbf{1}^i, \mathbf{R}) - 2 \zeta g(\mathbf{r}; \zeta, \mathbf{n}+\mathbf{1}^i, \mathbf{R}) \qquad (i = x,y,z),
+	\end{equation}
+	
+	\bibliography{Basis_Set.bib}
+
+\end{document}
