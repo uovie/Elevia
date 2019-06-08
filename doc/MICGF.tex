@@ -1,0 +1,185 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{geometry}
+\usepackage{fontspec}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{braket}
+\usepackage{IEEEtrantools}
+\usepackage[T1]{fontenc}
+\usepackage[cmintegrals]{newtxmath}
+\usepackage{bm}
+\usepackage{tabularx}
+
+\geometry{a4paper,left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
+
+\setmainfont{Times New Roman}
+\setsansfont{DejaVu Sans}
+\setmonofont{Latin Modern Mono}
+
+% define the title
+\title{Molecular Integrals over Cartesian Gaussian Functions}
+\author{Haoyu Lin (1801110300)}
+\date{\today}
+
+\bibliographystyle{unsrt}
+
+\begin{document}
+	
+	% generates the title
+	\maketitle
+	
+	\section{Cartesian Gaussian Functions}
+	We write an unnormalized primitive Cartesian Gaussian function centered at $mathbf{R}$ as
+	\begin{equation}
+		g^{\prime}(\mathbf{r}; \zeta, \mathbf{n}, \mathbf{R}) = \left(x-R_{x}\right)^{n_{x}} \left(y-R_{y}\right)^{n_{y}} \left(z-R_{z}\right)^{n_{z}} \exp \left[ -\zeta (\mathbf{r} - \mathbf{R})^2 \right],
+	\end{equation}
+	where $\mathbf{r}$ is the coordinate vector of the electron, $\zeta$ is the orbital exponent, and n is a set of non-negative integers. The sum of $n_{x}$, $n_{y}$, and $n_{z}$ will be denoted $\lambda(\mathbf{n})$ and be referred to as the angular momentum or orbital quantum number of the Gaussian function. The functions with $\lambda(\mathbf{n})$ equal to $0,1,2,\dots$, are referred to as $s,p,d,\dots$, respectively. A set of $(\lambda + 1) (\lambda + 2)/2$ functions at $\mathbf{R}$ associated with the same angular momentum $\lambda$ and orbital exponent $\zeta$ constitute a shell, and the functions in the shell are components of the shell. Some examples are listed in the Table \ref{table: 1}.
+	\begin{table}[htbp]
+		\caption{Some shells and their components} 
+		\label{table: 1}
+		\begin{center}
+		\begin{tabular}{|c|c|c|}
+			\hline
+			$\lambda(\mathbf{n})$ & Shell & Components ($i,j = x,y,z$) \\ \hline
+			0 & s & $\mathbf{0} = (0,0,0)$ \\ \hline
+			1 & p & $\mathbf{1}^i = (\delta_{ix}, \delta_{iy}, \delta_{iz})$ \\ \hline
+			2 & d & $\mathbf{1}^i + \mathbf{1}^j$ \\
+			\hline
+		\end{tabular} 
+		\end{center}
+	\end{table}
+	\\And the normalization coefficient $N(\zeta, \mathbf{n})$ of $g^{\prime}(\mathbf{r}; \zeta, \mathbf{n}, \mathbf{R})$ can be obtained through the equation
+	\begin{equation}
+		\int_{-\infty}^{\infty} x^{n} e^{-\zeta x^{2}} d x = \left\{
+		\begin{array}{ll}
+			2^{-(n-1)/2} \zeta^{-(n+1)/2}(n-1)!! & {\text{    for odd } n,} \\
+			2^{-n/2} \pi^{1/2} \zeta^{-(n+1)/2}(n-1)!! & {\text{    for even } n,}
+		\end{array}\right.
+		\label{eq: one-dimensional Gaussian integral}
+	\end{equation}
+	by virtue of which, we have
+	\begin{equation}
+		N(\zeta, \mathbf{n}) = \left(\frac{2}{\pi}\right)^{3 / 4} \frac{2^{\lambda(\mathbf{n})} \zeta^{(2 \lambda(\mathbf{n})+3) / 4}}{\left[\left(2 n_{x}-1\right) ! !\left(2 n_{y}-1\right) ! !\left(2 n_{z}-1\right) ! !\right]^{1 / 2}}.
+	\end{equation}
+	
+	A contracted Gaussian function is just a linear combination of primitive Gaussians (also termed primitives) centered at the same center $\mathbf{A}$ and with the same momentum indices $\mathbf{n}$ but with different exponents $\zeta_i$:
+	\begin{equation}
+		g(\mathbf{r}; \boldsymbol{\zeta}, \mathbf{n}, \mathbf{c}, \mathbf{R}) = \left(x-R_{x}\right)^{n_{x}} \left(y-R_{y}\right)^{n_{y}} \left(z-R_{z}\right)^{n_{z}} \sum_{i=1}^{M} C_i \exp \left[ -\zeta_i (\mathbf{r} - \mathbf{R})^2 \right],
+	\end{equation}
+	where $C_i = c_i N(\zeta_i, \mathbf{n})$ is the normalization-including contraction coefficient, and $c_i$ is the corresponding contraction coefficient.
+	
+	
+	\section{Features of Gaussian Functions}
+	
+	\subsection{Product of GFs}
+	The GTOs have an outstanding feature (along with the square dependence in the exponent),
+	which decides about their importance in quantum chemistry. The product of two Gaussian-type 1s orbitals (even if they have different centers) is a single Gaussian-type 1s orbital.
+	\begin{equation}
+		\exp \left[ -\zeta_a (\mathbf{r} - \mathbf{R}_a)^{2} \right] \exp \left[ -\zeta_b (\mathbf{r} - \mathbf{R}_b)^{2} \right] = N_{ab} \exp \left[-\zeta_{ab} (\mathbf{r}-\mathbf{R}_{ab})^{2}\right],
+	\end{equation}
+	with parameters
+	\begin{IEEEeqnarray}{rCl}
+		\zeta_{ab} &=& \zeta_a + \zeta_b, \nonumber \\
+		\mathbf{R}_{ab} &=& (\zeta_a \mathbf{R}_a + \zeta_b \mathbf{R}_b) / \zeta_{ab}, \nonumber \\
+		N_{ab} &=& \exp \left[\zeta_{ab} \mathbf{R}_{ab}^2 - \left(\zeta_a \mathbf{R}_a^2 + \zeta_b \mathbf{R}_b^2 \right)\right].
+	\end{IEEEeqnarray}
+	And multiplying recursively, three and higher-fold products are derived:
+	\begin{equation}
+		\exp \left[ -\zeta_a (\mathbf{r} - \mathbf{R}_a)^{2} \right] \exp \left[ -\zeta_b (\mathbf{r} - \mathbf{R}_b)^{2} \right] \exp \left[ -\zeta_c (\mathbf{r} - \mathbf{R}_c)^{2} \right] = N_{abc} \exp \left[-\zeta_{abc} (\mathbf{r}-\mathbf{R}_{abc})^{2}\right],
+	\end{equation}
+	with parameters
+	\begin{IEEEeqnarray}{rCl}
+		\zeta_{abc} &=& \zeta_a + \zeta_b + \zeta_c, \nonumber \\
+		\mathbf{R}_{abc} &=& (\zeta_a \mathbf{R}_a + \zeta_b \mathbf{R}_b + \zeta_c \mathbf{R}_c) / \zeta_{abc}, \nonumber \\
+		N_{abc} &=& \exp \left[\zeta_{abc} \mathbf{R}_{abc}^2 - \left(\zeta_a \mathbf{R}_a^2 + \zeta_b \mathbf{R}_b^2 + \zeta_c \mathbf{R}_c^2\right)\right],
+	\end{IEEEeqnarray}
+	and so forth.
+	
+	\subsection{Differential Relation}
+	The Cartesian Gaussian functions satisfy the differential relation
+	\begin{equation}
+		\frac{\partial}{\partial R_i} g^{\prime}(\mathbf{r}; \zeta, \mathbf{n}, \mathbf{R}) = 2 \zeta g^{\prime}(\mathbf{r}; \zeta, \mathbf{n}+\mathbf{1}^i, \mathbf{R}) - n_i g^{\prime}(\mathbf{r}; \zeta, \mathbf{n}-\mathbf{1}^i, \mathbf{R}) \qquad (i = x,y,z),
+		\label{eq: differential relation 1}
+	\end{equation}
+	In the Cartesian Gaussian function the nuclear coordinate $R_i$ always appears in the form of $r_i - R_i$. Therefore, differentiation with respect to $R_i$ can be replaced by that with respect to $r_i$:
+	\begin{equation}
+		\frac{\partial}{\partial r_i} g^{\prime}(\mathbf{r}; \zeta, \mathbf{n}, \mathbf{R}) = n_i g^{\prime}(\mathbf{r}; \zeta, \mathbf{n}-\mathbf{1}^i, \mathbf{R}) - 2 \zeta g^{\prime}(\mathbf{r}; \zeta, \mathbf{n}+\mathbf{1}^i, \mathbf{R}) \qquad (i = x,y,z).
+		\label{eq: differential relation 2}
+	\end{equation}
+	
+	
+	\section{Three-Center Overlap Integrals}
+	Three-center overlap integrals over unnormalized Cartesian Gaussian functions are of the form:
+	\begin{equation}
+		(\mathbf{a}|\mathbf{c}|\mathbf{b}) = \int \mathrm{d} \mathbf{r}\, g^{\prime}(\mathbf{r}; \zeta_a, \mathbf{a}, \mathbf{R}_a) g^{\prime}(\mathbf{r}; \zeta_c, \mathbf{c}, \mathbf{R}_c) g^{\prime}(\mathbf{r}; \zeta_b, \mathbf{b}, \mathbf{R}_b).
+	\end{equation}
+	According to Eq.\eqref{eq: differential relation 1}, the integral $(\mathbf{a} + \mathbf{1}^i|\mathbf{c}|\mathbf{b})$ can be decomposed as
+	\begin{equation}
+		(\mathbf{a} + \mathbf{1}^i|\mathbf{c}|\mathbf{b}) = \frac{1}{2 \zeta_a} \frac{\partial}{\partial R_{a,i}} (\mathbf{a}|\mathbf{c}|\mathbf{b}) - \frac{1}{2 \zeta_a} a_i (\mathbf{a} - \mathbf{1}^i|\mathbf{c}|\mathbf{b}).
+		\label{eq: iterative 1}
+	\end{equation}
+	Here the integral $(\mathbf{a}|\mathbf{c}|\mathbf{b})$ can be factored as
+	\begin{equation}
+		(\mathbf{a}|\mathbf{c}|\mathbf{b}) = N_{abc} I_x (a_x,b_x,c_x) I_y (a_y,b_y,c_y) I_z (a_z,b_z,c_z),
+	\end{equation}
+	where
+	\begin{IEEEeqnarray}{rCl}
+		I_i (a_i,b_i,c_i) &=& \left(\frac{\pi}{\zeta_{abc}}\right)^{1/2} \underbrace{\sum_{\alpha_i=0}^{a_i} \sum_{\beta_i=0}^{b_i} \sum_{\gamma_i=0}^{c_i}} _{\alpha_i + \beta_i + \gamma_i = \text{even}}
+		\begin{pmatrix} a_i \\ \alpha_i \end{pmatrix}
+		\begin{pmatrix} b_i \\ \beta_i \end{pmatrix}
+		\begin{pmatrix} c_i \\ \gamma_i \end{pmatrix} \nonumber \\
+		&& \times (R_{abc,i} - R_{a,i})^{a_i-\alpha_i} (R_{abc,i} - R_{b,i})^{b_i-\beta_i} (R_{abc,i} - R_{c,i})^{c_i-\gamma_i} \frac{(\alpha_i + \beta_i + \gamma_i - 1)!!}{(2\zeta_{abc})^{\alpha_i + \beta_i + \gamma_i}}.
+	\end{IEEEeqnarray}
+	Differentiating $N_{abc}$ and $I_i (a_i,b_i,c_i)$ with respect to $R_{a,i}$, we have
+	\begin{equation}
+		\frac{1}{2 \zeta_a} \frac{\partial}{\partial R_{a,i}} N_{abc} = (R_{abc,i} - R_{a,i}) N_{abc},
+		\label{eq: differential 1}
+	\end{equation}
+	and
+	\begin{IEEEeqnarray}{rCl}
+		\frac{1}{2 \zeta_a} \frac{\partial}{\partial R_{a,i}} I_i (a_i,b_i,c_i) &=& a_i \left[ \frac{1}{2\zeta_{abc}} - \frac{1}{2\zeta_a}\right] I_i (a_i - 1,b_i,c_i) \nonumber \\
+		&& \negmedspace {} + b_i \frac{1}{2\zeta_{abc}} I_i (a_i,b_i - 1,c_i) + c_i \frac{1}{2\zeta_{abc}} I_i (a_i,b_i,c_i - 1).
+		\label{eq: differential 2}
+	\end{IEEEeqnarray}
+	Substitution of Eqs. \eqref{eq: differential 1} and \eqref{eq: differential 2} into Eq.\eqref{eq: iterative 1} gives finally
+	\begin{IEEEeqnarray}{rCl}
+		(\mathbf{a} + \mathbf{1}^i|\mathbf{c}|\mathbf{b}) &=& (R_{abc,i} - R_{a,i}) (\mathbf{a}|\mathbf{c}|\mathbf{b}) + \frac{1}{2\zeta_{abc}} \left[ a_i(\mathbf{a} - \mathbf{1}^i|\mathbf{c}|\mathbf{b}) + b_i(\mathbf{a}|\mathbf{c}|\mathbf{b} - \mathbf{1}^i) + c_i(\mathbf{a}|\mathbf{c} - \mathbf{1}^i|\mathbf{b})\right]. \IEEEeqnarraynumspace
+	\end{IEEEeqnarray}
+	The integral over s-functions is given by
+	\begin{equation}
+		(\mathbf{0}^{a}|\mathbf{0}^{c}|\mathbf{0}^{b}) = \left(\frac{\pi}{\zeta_{abc}}\right)^{3/2} N_{abc} = \left(\frac{\zeta_{ab}}{\zeta_{abc}}\right)^{3/2} (\mathbf{0}^{a}|\mathbf{0}^{b}) \exp \left[ -\frac{\zeta_{ab} \zeta_{c}}{\zeta_{abc}} (\mathbf{R}_{ab} - \mathbf{R}_c)^2 \right],
+	\end{equation}
+	where $(\mathbf{0}^{a}|\mathbf{0}^{b})$ is the overlap integral between two s-functions centered at $\mathbf{R}_a$ and $\mathbf{R}_b$:
+	\begin{equation}
+		(\mathbf{0}^{a}|\mathbf{0}^{b}) = (\pi/\zeta)^{3/2} \exp \left[ -\frac{\zeta_a \zeta_b}{\zeta_{ab}} (\mathbf{R}_a - \mathbf{R}_b)^2 \right].
+	\end{equation}
+	
+	
+	\section{Electron Repulsion Integrals}
+	For the electron repulsion integrals (ERI's) over unnormalized Cartesian Gatissian functions
+	\begin{equation}
+		(\mathbf{a}\mathbf{b}|\mathbf{c}\mathbf{d}) = \int \mathrm{d} \mathbf{r}_1 \mathrm{d} \mathbf{r}_2\, g^{\prime}(\mathbf{r}_1; \zeta_a, \mathbf{a}, \mathbf{R}_a) g^{\prime}(\mathbf{r}_1; \zeta_b, \mathbf{b}, \mathbf{R}_b) \left| \mathbf{r}_1 - \mathbf{r}_2 \right|^{-1} g^{\prime}(\mathbf{r}_2; \zeta_c, \mathbf{c}, \mathbf{R}_c) g^{\prime}(\mathbf{r}_2; \zeta_d, \mathbf{d}, \mathbf{R}_d),
+	\end{equation}
+	we may substitute the identity
+	\begin{equation}
+		\left| \mathbf{r}_1 - \mathbf{r}_2 \right|^{-1} = \frac{2}{\pi^{1/2}} \int_{0}^{\infty} \mathrm{d}u\, \exp \left[ -(\mathbf{r}_1 - \mathbf{r}_2)^2 u^2 \right],
+	\end{equation}
+	to obtain
+	\begin{equation}
+		(\mathbf{a}\mathbf{b}|\mathbf{c}\mathbf{d}) = \frac{2}{\pi^{1/2}} \int_{0}^{\infty} \mathrm{d}u\, (\mathbf{a}\mathbf{b}|u|\mathbf{c}\mathbf{d}),
+	\end{equation}
+	where
+	\begin{equation}
+		(\mathbf{a}\mathbf{b}|u|\mathbf{c}\mathbf{d}) = \int \mathrm{d} \mathbf{r}_2 g^{\prime}(\mathbf{r}_2; \zeta_c, \mathbf{c}, \mathbf{R}_c) g^{\prime}(\mathbf{r}_2; \zeta_d, \mathbf{d}, \mathbf{R}_d) (\mathbf{a}|\mathbf{0}^{r_2}|\mathbf{b})
+	\end{equation}
+	and
+	\begin{equation}
+		(\mathbf{a}|\mathbf{0}^{r_2}|\mathbf{b}) = \int \mathrm{d} \mathbf{r}_1 g^{\prime}(\mathbf{r}_1; \zeta_a, \mathbf{a}, \mathbf{R}_a) g^{\prime}(\mathbf{r}_1; \zeta_b, \mathbf{b}, \mathbf{R}_b) \exp \left[ -u^2 (\mathbf{r}_1 - \mathbf{r}_2)^2 \right].
+	\end{equation}
+	
+	
+	\bibliography{Basis_Set.bib}
+
+\end{document}
