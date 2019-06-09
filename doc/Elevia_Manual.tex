@@ -1,0 +1,56 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{geometry}
+\usepackage{fontspec}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{braket}
+\usepackage{IEEEtrantools}
+\usepackage[T1]{fontenc}
+\usepackage[cmintegrals]{newtxmath}
+\usepackage{bm}
+\usepackage{tabularx}
+\usepackage{enumitem}
+
+\geometry{a4paper,left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
+
+\setmainfont{Times New Roman}
+\setsansfont{DejaVu Sans}
+\setmonofont{Latin Modern Mono}
+
+% define the title
+\title{Elevia Manual}
+\author{Haoyu Lin (1801110300)}
+\date{\today}
+
+\bibliographystyle{unsrt}
+
+\begin{document}
+	
+	% generates the title
+	\maketitle
+	
+	\section{The Hartree-Fock-Roothaan Method (SCF LCAO MO)}
+	
+	\subsection{The Self-Consistent Field Method}
+	The SCF procedure is carried out as follows:
+	\begin{enumerate}
+		\item Specify a system (a set of nuclear coordinates $\{\mathbf{R}_a\}$, atomic numbers $\{Z_a\}$, and the total number of electrons $N$) and a basis set $\{\chi_s\}$. 
+		\item Calculate all required molecular integrals $S_{rs}$, $h_{rs}$, and $(rp|sq)$, $(rp|qs)$.
+		\item Diagonalize the overlap matrix $\mathbf{S}$ and obtain a transformation matrix $\mathbf{X} = \mathbf{U} \mathbf{s}^{-1/2}$. 
+		\item Assume an initial bond-order matrix $\mathbf{P}$ (often in the first iteration, we
+		put $\mathbf{P} = \mathbf{0}$, as if there were no electron repulsion).
+		\item \label{five} Find the $\boldsymbol{\mathcal{F}}$ matrix using matrix $\mathbf{P}$.
+		\item Calculate the transformed Fock matrix $\boldsymbol{\mathcal{F}}^{\prime} = \mathbf{X}^{\dagger} \boldsymbol{\mathcal{F}} \mathbf{X}$.
+		\item Diagonalize $\boldsymbol{\mathcal{F}}^{\prime}$ to obtain $\mathbf{C}^{\prime}$ and $\boldsymbol{\epsilon}$. 
+		\item Calculate $\mathbf{C} = \mathbf{X} \mathbf{C}^{\prime}$.
+		\item Form a new $\mathbf{P}$ from $\mathbf{C}$.
+		\item Calculate the total energy $E$.
+		\item Determine whether the procedure has converged, i.e., determine whether the difference between two successive total energy is less than a threshold ($10^{-8}$). If the procedure has not converged, return to step (\ref{five}) with the new bond-order matrix. If the procedure has converged, then calculate and output the quantities of interest.
+	\end{enumerate}
+	
+	
+	\bibliography{Elevia_Manual.bib}
+
+\end{document}
