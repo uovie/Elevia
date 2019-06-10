@@ -1,6 +1,7 @@
 CC      := g++
 CCFLAGS := 
 LDFLAGS :=
+LIBS    := -I ../lib/
 
 TARGETS := Elevia
 MAINS   := $(addsuffix .o, $(TARGETS) )
