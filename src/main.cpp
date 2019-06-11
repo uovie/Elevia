@@ -1,9 +1,14 @@
-#include "main.h"
+#include "Global.h"
 
-int main(int argc, char* argv[FILENAME_MAX])
+using namespace Elevia;
+
+void core(void);
+
+int main(int argc, char* argv[])
 {
-	read(argc, argv);
+    fio file;
+	file.read(argc, argv);
 	core();
-	print(argc, argv);
+	file.print(argc, argv);
 	return 0;
 }

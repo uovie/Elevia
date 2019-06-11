@@ -1,7 +1,11 @@
 // The Input Function: Input the system information.
-#include "sub.h"
+#include "Global.h"
 
-void read(int argc, char *argv[FILENAME_MAX])
+using namespace Elevia;
+
+Elevia::system sys;
+
+void fio::read(int argc, char *argv[])
 {
 	if (argc != 2) {
 		std::cerr << "Usage: " << argv[0] << "filename" << std::endl;
@@ -15,12 +19,12 @@ void read(int argc, char *argv[FILENAME_MAX])
         exit(EXIT_FAILURE);
     }
 
-    in >> method >> basis >> number >> charge >> spin;
+    in >> sys.method >> sys.basis >> sys.number >> sys.charge >> sys.spin;
 
     atom atom_data;
-    for (int i = 0; i < number; i++) {
-        in >> atom_data.sym >> atom_data.r[0] >> atom_data.r[1] >> atom_data.r[2];
-        molecule.push_back(atom_data);
+    for (int i = 0; i < sys.number; i++) {
+        in >> atom_data.sym >> atom_data.R[0] >> atom_data.R[1] >> atom_data.R[2];
+        sys.component.push_back(atom_data);
     }
 
     const std::vector<std::string> element{ "H" , "He", "Li", "Be", "B" , "C" , "N" , "O" , "F" , "Ne",
@@ -32,7 +36,7 @@ void read(int argc, char *argv[FILENAME_MAX])
     "Cm", "Bk", "Cf", "Es", "Fm", "Md", "No", "Lr", "Rf", "Db", "Sg", "Bh", "Hs", "Mt", "Ds", "Rg", "Cn",
     "Nh", "Fl", "Mc", "Lv", "Ts", "Og" };
 
-    for (auto atom_it = molecule.begin(); atom_it != molecule.end(); atom_it++) {
+    for (auto atom_it = sys.component.begin(); atom_it != sys.component.end(); atom_it++) {
         for (auto ele_it = element.begin(); ele_it != element.end(); ele_it++) {
             if ((*atom_it).sym == *ele_it) {
                 (*atom_it).atom_num = (int)(ele_it - element.begin()) + 1;

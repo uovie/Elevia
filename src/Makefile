@@ -1,22 +1,18 @@
 CC      := g++
-CCFLAGS := 
-LDFLAGS :=
-LIBS    := -I ../lib/
+LIBS    := ../lib/
 
 TARGETS := Elevia
-MAINS   := $(addsuffix .o, $(TARGETS) )
-OBJ     := read.o core.o print.o $(MAINS)
-DEPS    := main.h sub.h
+OBJ     := main.o read.o core.o print.o
 
 .PHONY: all clean
 
 all: $(TARGETS)
 
 clean:
-	rm -f $(TARGETS) $(OBJ)
+	rm -f $(OBJ)
 
-$(OBJ): %.o : %.c $(DEPS)
-	$(CC) -c -o $@ $< $(CCFLAGS)
+$(OBJ): %.o : %.cpp
+	$(CC) -I $(LIBS) -c $< -o $@
 
-$(TARGETS): % : $(filter-out $(MAINS), $(OBJ)) %.o
-	$(CC) -o $@ $(LIBS) $^ $(CCFLAGS) $(LDFLAGS)
+$(TARGETS): $(OBJ)
+	$(CC) $^ -o $@
