@@ -150,6 +150,7 @@
 	The integral over s-functions is given by
 	\begin{equation}
 		(\mathbf{0}^{a}|\mathbf{0}^{c}|\mathbf{0}^{b}) = \left(\frac{\pi}{\zeta_{abc}}\right)^{3/2} N_{abc} = \left(\frac{\zeta_{ab}}{\zeta_{abc}}\right)^{3/2} (\mathbf{0}^{a}|\mathbf{0}^{b}) \exp \left[ -\frac{\zeta_{ab} \zeta_{c}}{\zeta_{abc}} (\mathbf{R}_{ab} - \mathbf{R}_c)^2 \right],
+		\label{eq: Three-center s-type overlap integrals}
 	\end{equation}
 	where $(\mathbf{0}^{a}|\mathbf{0}^{b})$ is the overlap integral between two s-functions centered at $\mathbf{R}_a$ and $\mathbf{R}_b$:
 	\begin{equation}
@@ -173,12 +174,57 @@
 	where
 	\begin{equation}
 		(\mathbf{a}\mathbf{b}|u|\mathbf{c}\mathbf{d}) = \int \mathrm{d} \mathbf{r}_2 g^{\prime}(\mathbf{r}_2; \zeta_c, \mathbf{c}, \mathbf{R}_c) g^{\prime}(\mathbf{r}_2; \zeta_d, \mathbf{d}, \mathbf{R}_d) (\mathbf{a}|\mathbf{0}^{r_2}|\mathbf{b})
+		\label{eq: (ab|u|cd)}
 	\end{equation}
 	and
 	\begin{equation}
 		(\mathbf{a}|\mathbf{0}^{r_2}|\mathbf{b}) = \int \mathrm{d} \mathbf{r}_1 g^{\prime}(\mathbf{r}_1; \zeta_a, \mathbf{a}, \mathbf{R}_a) g^{\prime}(\mathbf{r}_1; \zeta_b, \mathbf{b}, \mathbf{R}_b) \exp \left[ -u^2 (\mathbf{r}_1 - \mathbf{r}_2)^2 \right].
+		\label{eq: integrate with an s-type PGF}
 	\end{equation}
-	
+	Since the exponential function in Eq.\eqref{eq: integrate with an s-type PGF} corresponds to an s-type Cartesian Gaussian function with the orbital exponent $u^2$ centered at $\mathbf{r}_2$, $(\mathbf{a}|\mathbf{0}^{r_2}|\mathbf{b})$ is just a three-center overlap integral. Using Eq.\eqref{eq: Three-center s-type overlap integrals}, we obtain
+	\begin{IEEEeqnarray}{rCl}
+		(\mathbf{a} + \mathbf{1}^i|\mathbf{0}^{r_2}|\mathbf{b}) &=& (R_{ab,i} - R_{a,i}) (\mathbf{a}|\mathbf{0}^{r_2}|\mathbf{b}) + \frac{1}{2\zeta_{ab}} \left(1-\frac{\rho}{\zeta_{ab}} \frac{u^{2}}{\rho+u^{2}}\right) \left[ a_i(\mathbf{a} - \mathbf{1}^i|\mathbf{0}^{r_2}|\mathbf{b}) + b_i(\mathbf{a}|\mathbf{0}^{r_2}|\mathbf{b} - \mathbf{1}^i) \right] \nonumber \\
+		&&+ \frac{1}{\zeta_{ab}+\zeta_{cd}} \frac{u^{2}}{\rho+u^{2}} \left[ \zeta_{cd} (r_{2i}-R_{ab,i}) (\mathbf{a}|\mathbf{0}^{r_2}|\mathbf{b}) - u^2 (\mathbf{a}|\mathbf{1}^{1,r_2}|\mathbf{b})\right],
+		\label{eq: (a+1|0|b)}
+	\end{IEEEeqnarray}
+	where we have made use of the relations
+	\begin{equation}
+		(\mathbf{a}|\mathbf{1}^{i,r_2}|\mathbf{b}) = -\frac{\zeta_{ab}}{\zeta_{ab}+u^2} (r_{2i}-R_{ab,i}) (\mathbf{a}|\mathbf{0}^{r_2}|\mathbf{b}) + \frac{1}{2(\zeta_{ab}+u^2)} \left[ a_i(\mathbf{a} - \mathbf{1}^i|\mathbf{0}^{r_2}|\mathbf{b}) + b_i(\mathbf{a}|\mathbf{0}^{r_2}|\mathbf{b} - \mathbf{1}^i) \right],
+	\end{equation}
+	and
+	\begin{equation}
+		\frac{1}{\zeta_{ab}+u^{2}} = \frac{1}{\zeta_{ab}} \left(1-\frac{\zeta_{ab}\rho}{\zeta_a \zeta_b} \frac{u^2}{\rho+u^2}\right) - \frac{1}{\zeta_{ab}+\eta} \frac{u^{2}}{\zeta_{ab}+u^{2}} \frac{u^{2}}{\rho+u^{2}}
+	\end{equation}
+	with the parameters $\zeta_{cd}$ and $\rho$ defined by
+	\begin{equation}
+		\zeta_{cd} = \zeta_c+\zeta_d \qquad \text{and} \qquad \rho = \frac{\zeta_{ab}\zeta_{cd}}{\zeta_{ab}+\zeta_{cd}}.
+	\end{equation}
+	The integration over $\mathbf{r}_2$ of the last term of Eq.\eqref{eq: (a+1|0|b)} multiplied by $g^{\prime}(\mathbf{r}_2; \zeta_c, \mathbf{c}, \mathbf{R}_c)$ and $g^{\prime}(\mathbf{r}_2; \zeta_d, \mathbf{d}, \mathbf{R}_d)$ can be rewritten as
+	\begin{IEEEeqnarray}{rCl}
+		&&-\frac{1}{\zeta_{ab}+\zeta_{cd}} \frac{u^{2}}{\rho+u^{2}} \int \mathrm{d} \mathbf{r}_2\, g^{\prime}(\mathbf{r}_2; \zeta_c, \mathbf{c}, \mathbf{R}_c) g^{\prime}(\mathbf{r}_2; \zeta_d, \mathbf{d}, \mathbf{R}_d) u^2 (\mathbf{a}|\mathbf{1}^{1,r_2}|\mathbf{b}) \nonumber \\
+		&=& \frac{1}{\zeta_{ab}+\zeta_{cd}} \frac{u^{2}}{\rho+u^{2}} \int \mathrm{d} \mathbf{r}_2\, g^{\prime}(\mathbf{r}_2; \zeta_a, \mathbf{a}, \mathbf{R}_a) g^{\prime}(\mathbf{r}_2; \zeta_b, \mathbf{b}, \mathbf{R}_b) u^2 (\mathbf{c}|\mathbf{1}^{1,r_1}|\mathbf{d}).
+		\label{eq: rewritten last term}
+	\end{IEEEeqnarray}
+	Multiplying the recurrence formula for $(\mathbf{c}|\mathbf{i}^{1,r_1}|\mathbf{d})$ by $\zeta_{cd} + u^2$ we find
+	\begin{IEEEeqnarray}{rCl}
+		u^2 (\mathbf{c}|\mathbf{1}^{1,r_1}|\mathbf{d}) &=& -\zeta_{cd}(r_{1i}-\mathbf{R}_{cd}) (\mathbf{c}|\mathbf{0}^{r_1}|\mathbf{d}) \nonumber \\
+		&&+ \frac{1}{2} \left[ (\mathbf{c}-\mathbf{1}^{i}|\mathbf{1}^{1,r_1}|\mathbf{d}) + (\mathbf{c}|\mathbf{1}^{1,r_1}|\mathbf{d}-\mathbf{1}^{i}) \right] - \zeta_{cd}(\mathbf{c}|\mathbf{1}^{1,r_1}|\mathbf{d}),
+		\label{eq: Multiplying the recurrence formula}
+	\end{IEEEeqnarray}
+	where
+	\begin{equation}
+		\mathbf{R}_{cd} = (\zeta_c \mathbf{R}_c + \zeta_d \mathbf{R}_d) / \zeta_{cd}.
+	\end{equation}
+	Referring to Eq.\eqref{eq: (ab|u|cd)}, and using Eqs. \eqref{eq: (a+1|0|b)}, \eqref{eq: rewritten last term}, and \eqref{eq: Multiplying the recurrence formula}, we arrive at
+	\begin{IEEEeqnarray}{rCl}
+		((\mathbf{a}+\mathbf{1}^{i}) \mathbf{b}|u| \mathbf{c} \mathbf{d}) &=& (R_{ab,i}-R_{a,i})(\mathbf{a} \mathbf{b}|u| \mathbf{c} \mathbf{d}) + (R_{abcd,i}-R_{a,i}) \frac{u^{2}}{\rho+u^{2}} (\mathbf{a} \mathbf{b}|u| \mathbf{c} \mathbf{d}) \nonumber \\
+		&& +\frac{1}{2 \zeta_{ab}} \left(1-\frac{\rho}{\zeta_{ab}} \frac{u^{2}}{\rho+u^{2}}\right) \left[ a_i((\mathbf{a}-\mathbf{1}^{i}) \mathbf{b}|u| \mathbf{c} \mathbf{d}) + b_i(\mathbf{a} (\mathbf{b}-\mathbf{1}^i)|u| \mathbf{c} \mathbf{d}) \right] \nonumber \\
+		&& +\frac{1}{2(\zeta_{ab}+\zeta_{cd})} \frac{u^{2}}{\rho+u^{2}} \left[ c_i(\mathbf{a} \mathbf{b}|u|(\mathbf{c}-\mathbf{1}^{i}) \mathbf{d}) + d_i(\mathbf{a} \mathbf{b}|u| \mathbf{c}\left(\mathbf{d}-\mathbf{1}^{i}\right))\right],
+	\end{IEEEeqnarray}
+	where
+	\begin{equation}
+		\mathbf{R}_{abcd} = \frac{\zeta_{ab}\mathbf{R}_{ab} + \zeta_{cd}\mathbf{R}_{cd}}{\zeta_{ab} + \zeta_{cd}}.
+	\end{equation}
 	
 	\bibliography{Basis_Set.bib}
 
