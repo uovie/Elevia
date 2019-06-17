@@ -5,16 +5,14 @@
 
 namespace Elevia {
 
-    class atom {
-    public:
+    struct atom {
         std::string sym;                  // atomic symbol
         int atom_num;                     // atomic number
-        double R[3];         // atomic position
+        double R[3];                      // atomic position
     };
 
-    class system {
-    public:
-        std::vector<atom> component;
+    struct system {
+        std::vector<atom> atoms;
         std::string method;               // method
         std::string basis;                // basis set
         int number;                       // the total number of atoms
@@ -24,6 +22,7 @@ namespace Elevia {
 
     class fio {
     public:
+        system sys;
         void read(int argc, char* argv[]);
         void print(int argc, char* argv[]);
     private:

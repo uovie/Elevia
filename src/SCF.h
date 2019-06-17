@@ -1,6 +1,19 @@
-// Self-Consistent Field
+/*
+ *  This header file is part of Elevia.
+ *
+ *  Self-Consistent Field
+ *
+ */
+
+// standard C++ headers
 #include <iostream>
-#include "Mol_Int.h"
+
+// Eigen matrix algebra library
+#include <Eigen/Dense>
+#include <Eigen/Eigenvalues>
+
+// Libint Gaussian integrals library
+#include <libint2.hpp>
 
 namespace Elevia {
     class SCF {

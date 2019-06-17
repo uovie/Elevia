@@ -3,8 +3,6 @@
 
 using namespace Elevia;
 
-Elevia::system sys;
-
 void fio::read(int argc, char *argv[])
 {
 	if (argc != 2) {
@@ -24,7 +22,7 @@ void fio::read(int argc, char *argv[])
     atom atom_data;
     for (int i = 0; i < sys.number; i++) {
         in >> atom_data.sym >> atom_data.R[0] >> atom_data.R[1] >> atom_data.R[2];
-        sys.component.push_back(atom_data);
+        sys.atoms.push_back(atom_data);
     }
 
     const std::vector<std::string> element{ "H" , "He", "Li", "Be", "B" , "C" , "N" , "O" , "F" , "Ne",
@@ -36,7 +34,7 @@ void fio::read(int argc, char *argv[])
     "Cm", "Bk", "Cf", "Es", "Fm", "Md", "No", "Lr", "Rf", "Db", "Sg", "Bh", "Hs", "Mt", "Ds", "Rg", "Cn",
     "Nh", "Fl", "Mc", "Lv", "Ts", "Og" };
 
-    for (auto atom_it = sys.component.begin(); atom_it != sys.component.end(); atom_it++) {
+    for (auto atom_it = sys.atoms.begin(); atom_it != sys.atoms.end(); atom_it++) {
         for (auto ele_it = element.begin(); ele_it != element.end(); ele_it++) {
             if ((*atom_it).sym == *ele_it) {
                 (*atom_it).atom_num = (int)(ele_it - element.begin()) + 1;
