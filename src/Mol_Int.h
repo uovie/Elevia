@@ -18,9 +18,6 @@
 // Libint Gaussian integrals library
 #include <libint2.hpp>
 
-using real_t = libint2::scalar_type;
-typedef Eigen::Matrix<real_t, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> Matrix;
-
 extern Elevia::fio vie;
 
 namespace Elevia {
@@ -143,7 +140,7 @@ namespace Elevia {
     std::vector<size_t> map_shell_to_basis_function(const std::vector<libint2::Shell>& shells);
     Matrix one_body_ints(const std::vector<libint2::Shell>& shells, libint2::Operator obtype,
         const std::vector<Elevia::atom>& atoms);
-    Matrix two_body_fock(const std::vector<libint2::Shell>& shells, const Matrix& D);
+    Matrix two_body_fock(const std::vector<libint2::Shell>& shells, const Matrix& P);
 
     // number of basis functions
     size_t nbasis(const std::vector<libint2::Shell>& shells) {
@@ -279,7 +276,7 @@ namespace Elevia {
     }
 
 
-    Matrix two_body_fock(const std::vector<libint2::Shell>& shells,const Matrix& D)
+    Matrix two_body_fock(const std::vector<libint2::Shell>& shells,const Matrix& P)
     {
         using libint2::Shell;
         using libint2::Engine;
@@ -360,12 +357,12 @@ namespace Elevia {
 
                                         const auto value_scal_by_deg = value * s1234_deg;
 
-                                        G(bf1, bf2) += D(bf3, bf4) * value_scal_by_deg;
-                                        G(bf3, bf4) += D(bf1, bf2) * value_scal_by_deg;
-                                        G(bf1, bf3) -= 0.25 * D(bf2, bf4) * value_scal_by_deg;
-                                        G(bf2, bf4) -= 0.25 * D(bf1, bf3) * value_scal_by_deg;
-                                        G(bf1, bf4) -= 0.25 * D(bf2, bf3) * value_scal_by_deg;
-                                        G(bf2, bf3) -= 0.25 * D(bf1, bf4) * value_scal_by_deg;
+                                        G(bf1, bf2) += P(bf3, bf4) * value_scal_by_deg;
+                                        G(bf3, bf4) += P(bf1, bf2) * value_scal_by_deg;
+                                        G(bf1, bf3) -= 0.25 * P(bf2, bf4) * value_scal_by_deg;
+                                        G(bf2, bf4) -= 0.25 * P(bf1, bf3) * value_scal_by_deg;
+                                        G(bf1, bf4) -= 0.25 * P(bf2, bf3) * value_scal_by_deg;
+                                        G(bf2, bf3) -= 0.25 * P(bf1, bf4) * value_scal_by_deg;
                                     }
                                 }
                             }

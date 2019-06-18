@@ -1,4 +1,4 @@
-// The Output Function: Desired information
+// fio class member function "print()"
 #include "Global.h"
 #include <iomanip>
 
@@ -15,12 +15,14 @@ void fio::print(int argc, char *argv[])
 			filename += c;
 		} else { break;	}
 	}
+
+    // check input
 	chk.open(filename + ".chk");
     chk << "1. General Infomation\n";
     chk << "Method: " << sys.method << ", Basis Set: " << sys.basis << ", Total Num: "
         << sys.number << ", Charge: " << sys.charge << ", Spin Multi: " << sys.spin << ".\n";
     chk << "\n2. Configuration Infomation\n";
-    for (auto it = sys.component.begin(); it != sys.component.end(); it++) {
+    for (auto it = sys.atoms.begin(); it != sys.atoms.end(); it++) {
         chk << (*it).sym;
         for (int i = 0; i < 3; i++) {
             if ((*it).R[i] >= 0) { chk << "    "; }
@@ -30,8 +32,10 @@ void fio::print(int argc, char *argv[])
         chk << std::endl;
     }
 
+    // open output file
 	out.open(filename + ".out");
 
+    // close files
 	in.close();
 	chk.close();
 	out.close();

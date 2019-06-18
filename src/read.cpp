@@ -1,4 +1,4 @@
-// The Input Function: Input the system information.
+// fio class member function "read()"
 #include "Global.h"
 
 using namespace Elevia;

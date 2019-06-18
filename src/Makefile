@@ -1,9 +1,10 @@
 CC      := g++
-LIBS    := ../lib/
+INCL    := /usr/local/libint/2.5.0/include
+LIBS    := /usr/local/libint/2.5.0/lib
 
 TARGETS := Elevia
-OBJ     := main.o read.o core.o print.o
-DEPS    := Global.h misc.h umath.h Mol_Int.h SCF.h
+OBJ     := main.o read.o intro_basis.o core.o print.o
+DEPS    := Global.h umath.h Mol_Int.h
 
 .PHONY: all clean
 
@@ -13,7 +14,7 @@ clean:
 	rm -f $(OBJ)
 
 $(OBJ): %.o : %.cpp $(DEPS)
-	$(CC) -I $(LIBS) -c $< -o $@
+	$(CC) -I $(INCL) -L $(LIBS) -c $< -o $@
 
 $(TARGETS): $(OBJ)
 	$(CC) $^ -o $@
