@@ -12,26 +12,62 @@
 // Libint Gaussian integrals library
 #include <libint2.hpp>
 
-using namespace Elevia;
+// function declarations
+std::vector<libint2::Shell> intro_basis(const std::vector<Elevia::atom>& atoms);
+size_t Elevia::nbasis(const std::vector<libint2::Shell>& shells);
+size_t Elevia::max_nprim(const std::vector<libint2::Shell>& shells);
+int Elevia::max_l(const std::vector<libint2::Shell>& shells);
+std::vector<size_t> Elevia::map_shell_to_basis_function(const std::vector<libint2::Shell>& shells);
+Matrix Elevia::one_body_ints(const std::vector<libint2::Shell>& shells, libint2::Operator obtype,
+    const std::vector<Elevia::atom>& atoms = std::vector<Elevia::atom>());
+Matrix Elevia::two_body_fock(const std::vector<libint2::Shell>& shells, const Matrix& D);
 
-extern fio vie;
+extern Elevia::fio vie;
 
 void core(void)
 {
-    Eigen::Vector3d r_test(1,2,3);
-
-    double zeta_test = 0.5;
-    Eigen::Vector3d n_test(1,0,0);
-    Eigen::Vector3d R_test(4,5,6);
-
-    Elevia::PGF pgf_test = Elevia::PGF(r_test, zeta_test, n_test, R_test);
-    std::cout << pgf_test.uvalue << '\n' << pgf_test.N << std::endl;
+    using libint2::Shell;
+    using libint2::Engine;
+    using libint2::Operator;
 
     /*** ===================== ***/
     /*** introduce a basis set ***/
     /*** ===================== ***/
 
+    std::vector<libint2::Shell> shells = intro_basis(vie.sys.atoms);
+    size_t n_bf = 0;    // number of basis functions
+    for (auto s = 0; s < shells.size(); ++s)
+        n_bf += shells[s].size();
 
+    /*** ===================== ***/
+    /*** compute 1-e integrals ***/
+    /*** ===================== ***/
+
+    libint2::initialize();
+
+    // compute overlap integrals
+    auto S = Elevia::one_body_ints(shells, Operator::overlap);
+    std::cout << "\n\tOverlap Integrals:\n";
+    std::cout << S << std::endl;
+
+    // compute kinetic-energy integrals
+    auto T = 1body_ints(shells, Operator::kinetic);
+    cout << "\n\tKinetic-Energy Integrals:\n";
+    cout << T << endl;
+
+    // nuclear-attraction integrals Vne
+    Matrix Vne = 1body_ints(shells, Operator::nuclear, atoms);
+    cout << "\n\tNuclear Attraction Integrals:\n";
+    cout << Vne << endl;
+
+    // Core Hamiltonian = T + V
+    Matrix H = T + V;
+    cout << "\n\tCore Hamiltonian:\n";
+    cout << H << endl;
+
+    // T and V no longer needed, free up the memory
+    T.resize(0, 0);
+    V.resize(0, 0);
 
     // nuclear repulsion energy Vnn
     double Vnn = 0.0;
@@ -45,3 +81,4 @@ void core(void)
         }
     std::cout << "Nuclear repulsion energy = " << Vnn << std::endl;
 }
+
