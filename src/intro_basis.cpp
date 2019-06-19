@@ -13,16 +13,16 @@ using namespace libint2;
 // function declarations
 void shell_read(std::ifstream& data_file, std::array<Shell::real_t, 3> R, std::string shell_sym);
 
-extern Elevia::system sys;
+extern Elevia::fio vie;
 std::vector<Shell> shells;
 
 std::vector<libint2::Shell> intro_basis(const std::vector<atom>& atoms) {
 
     for (auto a = 0; a < atoms.size(); a++) {
         std::ifstream basis_data;
-        basis_data.open("../dat/basis/" + sys.basis + ".g94");
+        basis_data.open("../dat/basis/" + vie.sys.basis + ".g94");
         if (basis_data.fail()) {
-            std::cout << "Can not open the basis file " << sys.basis << ".g94." << std::endl;
+            std::cout << "Can not open the basis file " << vie.sys.basis << ".g94." << std::endl;
             exit(EXIT_FAILURE);
         }
         
@@ -40,7 +40,10 @@ std::vector<libint2::Shell> intro_basis(const std::vector<atom>& atoms) {
 
         std::string shell_sym;
         basis_data >> shell_sym;
-        shell_read(basis_data, R, shell_sym);
+        while (shell_sym != "****") {
+            shell_read(basis_data, R, shell_sym);
+            basis_data >> shell_sym;
+        }
 
         basis_data.close();
     }

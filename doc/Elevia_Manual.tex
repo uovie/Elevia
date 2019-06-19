@@ -55,11 +55,32 @@
 	\maketitle
 	
 	\section{Input File Format}
+	
+	Elevia assumes a new input format:
+	
+	\begin{center}
+	\noindent\begin{tabular}{|l|}
+		\hline
+		\text{[method] [basis] [the number of atoms] [charge] [spin multiplicity]}\\
+		\\
+		\text{[atom symbol]\ \ \ \ [  Rx  ]\ \ \ \ [  Ry  ]\ \ \ \ [  Rz  ]}\\
+		\text{[atom symbol]\ \ \ \ [  Rx  ]\ \ \ \ [  Ry  ]\ \ \ \ [  Rz  ]}\\
+		\text{[atom symbol]\ \ \ \ [  Rx  ]\ \ \ \ [  Ry  ]\ \ \ \ [  Rz  ]}\\
+		... ...\\
+		\hline
+	\end{tabular}
+	\end{center}
+	
+	\noindent For instance, an input file for test is
+	
 	\lstinputlisting[
 	style   = text,
 	caption = {\bf test.vie},
 	label   = {test.vie}
 	]{../test/test.vie}
+	
+	\section{Method}
+	Only support RHF.
 	
 	\section{Basis Set}
 	Currently supported basis sets:
@@ -71,6 +92,7 @@
 		\item 6-31G(d,p)
 		\item 6-311G(d,p)
 	\end{itemize}
+	Basis must strictly be typed in these displayed forms, only for that could Elevia recognize. The source code about reading basis data (dat/basis/*.g94) into the program is included in "intro\verb|_|basis.cpp".
 	
 	
 	\section{SCF Procedure}

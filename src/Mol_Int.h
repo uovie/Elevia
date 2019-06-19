@@ -18,8 +18,6 @@
 // Libint Gaussian integrals library
 #include <libint2.hpp>
 
-extern Elevia::fio vie;
-
 namespace Elevia {
 
     /*** =========================== ***/
@@ -138,6 +136,7 @@ namespace Elevia {
     size_t max_nprim(const std::vector<libint2::Shell>& shells);
     int max_l(const std::vector<libint2::Shell>& shells);
     std::vector<size_t> map_shell_to_basis_function(const std::vector<libint2::Shell>& shells);
+    Matrix SAD(const std::vector<Elevia::atom>& atoms);
     Matrix one_body_ints(const std::vector<libint2::Shell>& shells, libint2::Operator obtype,
         const std::vector<Elevia::atom>& atoms);
     Matrix two_body_fock(const std::vector<libint2::Shell>& shells, const Matrix& P);
@@ -183,7 +182,7 @@ namespace Elevia {
 
     // computes Superposition-Of-Atomic-Densities guess for the molecular density matrix
     // in minimal basis; occupies subshells by smearing electrons evenly over the orbitals
-    Matrix compute_soad(const std::vector<Elevia::atom>& atoms) {
+    Matrix SAD(const std::vector<Elevia::atom>& atoms) {
 
         // number of atomic orbitals
         size_t nao = 0;
@@ -198,26 +197,26 @@ namespace Elevia {
         }
 
         // compute the minimal basis density
-        Matrix D(nao, nao);
+        Matrix P = Matrix::Zero(nao, nao);
         size_t ao_offset = 0; // first AO of this atom
         for (const auto& atom : atoms) {
             const auto Z = atom.atom_num;
             if (Z == 1 || Z == 2) { // H, He
-                D(ao_offset, ao_offset) = Z; // all electrons go to the 1s
+                P(ao_offset, ao_offset) = Z; // all electrons go to the 1s
                 ao_offset += 1;
             }
             else if (Z <= 10) {
-                D(ao_offset, ao_offset) = 2; // 2 electrons go to the 1s
-                D(ao_offset + 1, ao_offset + 1) = (Z == 3) ? 1 : 2; // Li? only 1 electron in 2s, else 2 electrons
+                P(ao_offset, ao_offset) = 2; // 2 electrons go to the 1s
+                P(ao_offset + 1, ao_offset + 1) = (Z == 3) ? 1 : 2; // Li? only 1 electron in 2s, else 2 electrons
                 // smear the remaining electrons in 2p orbitals
                 const double num_electrons_per_2p = (Z > 4) ? (double)(Z - 4) / 3 : 0;
                 for (auto xyz = 0; xyz != 3; ++xyz)
-                    D(ao_offset + 2 + xyz, ao_offset + 2 + xyz) = num_electrons_per_2p;
+                    P(ao_offset + 2 + xyz, ao_offset + 2 + xyz) = num_electrons_per_2p;
                 ao_offset += 5;
             }
         }
 
-        return D * 0.5; // we use densities normalized to # of electrons/2
+        return P * 0.5; // we use densities normalized to # of electrons/2
     }
 
     // one-body Integrals
@@ -285,7 +284,7 @@ namespace Elevia {
         auto time_elapsed = std::chrono::duration<double>::zero();
 
         const auto n = nbasis(shells);
-        Matrix G(n, n);
+        Matrix G = Matrix::Zero(n, n);
 
         // construct the 2-electron repulsion integrals engine
         Engine engine(Operator::coulomb, max_nprim(shells), max_l(shells), 0);

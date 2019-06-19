@@ -10,7 +10,11 @@
 // Libint Gaussian integrals library
 #include <libint2.hpp>
 
-using real_t = double;      //libint2::scalar_type
+/* a.u. of length: Bohr radius (bohr) */
+// Unit Conversion: angstroms -> bohr
+constexpr double angstrom_to_bohr = 1 / 0.52917721092; // 2010 CODATA value
+
+using real_t = libint2::scalar_type;
 typedef Eigen::Matrix<real_t, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> Matrix;
 
 namespace Elevia {
@@ -35,8 +39,9 @@ namespace Elevia {
     class fio {
     public:
         system sys;
-        void read(int argc, char* argv[]);
-        void print(int argc, char* argv[]);
+        void open(int argc, char* argv[]);
+        //void core();
+        void close(int argc, char* argv[]);
 
         std::ifstream in;
         std::ofstream chk;

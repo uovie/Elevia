@@ -7,8 +7,8 @@ fio vie;
 
 int main(int argc, char* argv[])
 {
-	vie.read(argc, argv);
+	vie.open(argc, argv);
 	core();
-	vie.print(argc, argv);
+	vie.close(argc, argv);
 	return 0;
 }
