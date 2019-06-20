@@ -5,7 +5,6 @@
 #include <chrono>
 
 // Elevia headers
-#include "misc.h"
 #include "Mol_Int.h"
 
 // Eigen matrix algebra library
@@ -37,7 +36,7 @@ void core(void)
     std::cout << std::fixed << std::setprecision(8);
     vie.out   << std::fixed << std::setprecision(8);
 
-    // system infomation
+    // system information
     std::cout << "\nGeneral Infomation\n"
         << "Method: " << vie.sys.method << ", Basis Set: " << vie.sys.basis << ", Total Num: "
         << vie.sys.number << ", Charge: " << vie.sys.charge << ", Spin Multi: " << vie.sys.spin << '.' << std::endl;
@@ -57,7 +56,7 @@ void core(void)
     }
 
     // count the number of electrons and
-    // calulate the number of doubly occupied orbitals
+    // calculate the number of doubly occupied orbitals
     int nelectron = 0;
     for (auto i = 0; i < vie.sys.atoms.size(); i++)//
         nelectron += vie.sys.atoms[i].atom_num;//
@@ -100,28 +99,28 @@ void core(void)
 
     libint2::initialize();
 
-    // overlap integrals
+    // overlap integrals S
     auto S = Elevia::one_body_ints(shells, Operator::overlap);
     std::cout << "\nOverlap Integrals:\n"
         << "S =\n" << S << std::endl;
     vie.out   << "\nOverlap Integrals:\n"
         << "S =\n" << S << std::endl;
 
-    // kinetic-energy integrals Te
+    // kinetic energy integrals Te
     auto Te = Elevia::one_body_ints(shells, Operator::kinetic);
     std::cout << "\nKinetic-Energy Integrals:\n"
         << "T_{e} =\n" << Te << std::endl;
     vie.out   << "\nKinetic-Energy Integrals:\n"
         << "T_{e} =\n" << Te << std::endl;
 
-    // nuclear-attraction integrals Vne
+    // nuclear attraction integrals Vne
     Matrix Vne = Elevia::one_body_ints(shells, Operator::nuclear, vie.sys.atoms);//
     std::cout << "\nNuclear Attraction Integrals:\n"
         << "V_{ne} =\n" << Vne << std::endl;
     vie.out   << "\nNuclear Attraction Integrals:\n"
         << "V_{ne} =\n" << Vne << std::endl;
 
-    // Core Hamiltonian Hcore = Te + Vne
+    // core Hamiltonian Hcore = Te + Vne
     Matrix Hcore = Te + Vne;
     std::cout << "\nCore Hamiltonian:\n"
         << "H_{core} =\n" << Hcore << std::endl;
@@ -132,14 +131,14 @@ void core(void)
     Te.resize(0, 0);
     Vne.resize(0, 0);
 
-    /*** ==================================== ***/
-    /*** assum an initial bond-order matrix P ***/
-    /*** ==================================== ***/
+    /*** ===================================== ***/
+    /*** assume an initial bond-order matrix P ***/
+    /*** ===================================== ***/
 
     Matrix P;
 
-    // use Superposition-Of-Atomic-Densities (SOAD) guess for minimal basis set
-    // use core Hamiltonian guass for other basis sets
+    // use Superposition-Of-Atomic-Densities (SAD) guess for minimal basis sets
+    // use core Hamiltonian guess for other basis sets
     bool use_hcore_guess = true;
     std::string basis_sto3g = "STO-3G";
     if (vie.sys.basis == basis_sto3g) {
@@ -153,11 +152,11 @@ void core(void)
          *
          * \class GeneralizedSelfAdjointEigenSolver
          *
-         * \brief Computes eigenvalues and eigenvectors of the generalized selfadjoint eigen problem
+         * \brief Computes eigenvalues and eigenvectors of the generalized self-adjoint eigen problem
          *
          * This class solves the generalized eigenvalue problem
          * \f$ Av = \lambda Bv \f$. In this case, the matrix \f$ A \f$ should be
-         * selfadjoint and the matrix \f$ B \f$ should be positive definite.
+         * self-adjoint and the matrix \f$ B \f$ should be positive definite.
          */
         Eigen::GeneralizedSelfAdjointEigenSolver<Matrix> gen_eig_solver(Hcore, S);
         auto eps = gen_eig_solver.eigenvalues();
@@ -184,8 +183,8 @@ void core(void)
     /*** main iterative loop (SCF) ***/
     /*** ========================= ***/
 
-    const auto maxiter = 100;
-    const real_t conv = 1e-12;
+    const auto maxiter = 5000;
+    const real_t conv = 1e-9;
     auto iter = 0;
     real_t RMSD = 0.0;
     real_t Delta_E = 0.0;
@@ -195,12 +194,11 @@ void core(void)
         ++iter;
 
         // Save a copy of the energy and the density
-        auto Ehf_last = Eelec;
+        auto Eelec_last = Eelec;
         auto P_last = P;
 
         // build a new Fock matrix
         auto F = Hcore;
-        //F += compute_2body_fock_simple(shells, P);
         F += Elevia::two_body_fock(shells, P);
 
         if (iter == 1) {
@@ -215,7 +213,7 @@ void core(void)
         auto eps = gen_eig_solver.eigenvalues();
         auto C = gen_eig_solver.eigenvectors();
 
-        // compute density, D = C(occ) . C(occ)T
+        // compute density, P = C(occ) . C(occ)T
         auto C_occ = C.leftCols(ndocc);
         P = C_occ * C_occ.transpose();
 
@@ -226,7 +224,7 @@ void core(void)
                 Eelec += P(i, j) * (Hcore(i, j) + F(i, j));
 
         // compute difference with last iteration
-        Delta_E = Eelec - Ehf_last;
+        Delta_E = Eelec - Eelec_last;
         RMSD = (P - P_last).norm();
 
         const auto tstop = std::chrono::high_resolution_clock::now();

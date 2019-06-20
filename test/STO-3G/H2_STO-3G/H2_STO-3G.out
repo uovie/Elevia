@@ -1,0 +1,49 @@
+
+General Infomation
+Method: RHF, Basis Set: STO-3G, Total Num: 2, Charge: 0, Spin Multi: 1.
+
+Nuclear repulsion energy:
+V_{nn} = 0.74298641
+
+The number of atomic orbitals is 2.
+
+Overlap Integrals:
+S =
+1.00000000 0.67806746
+0.67806746 1.00000000
+
+Kinetic-Energy Integrals:
+T_{e} =
+0.76003188 0.25386663
+0.25386663 0.76003188
+
+Nuclear Attraction Integrals:
+V_{ne} =
+-1.89936868 -1.24613566
+-1.24613566 -1.89936868
+
+Core Hamiltonian:
+H_{core} =
+-1.13933679 -0.99226903
+-0.99226903 -1.13933679
+
+Initial Density Matrix:
+P =
+0.50000000 0.00000000
+0.00000000 0.50000000
+
+Fock Matrix:
+F =
+-0.32973483 -0.53173460
+-0.53173460 -0.32973483
+
+
+SCF Procedure:
+Iter       E_{elec}            E_{tot}             \Delta E              RMSD        Time(s)
+01     -1.783644177955     -1.040657767778     -1.783644177955      0.509118195257   0.00025
+02     -1.860492295293     -1.117505885116     -0.076848117338      0.000000000000   0.00018
+03     -1.860492295293     -1.117505885116     -0.000000000000      0.000000000000   0.00016
+
+**Hartree-Fock energy: HF = -1.11750589
+
+Normal termination. Congratulations!

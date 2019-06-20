@@ -40,7 +40,6 @@ namespace Elevia {
     public:
         system sys;
         void open(int argc, char* argv[]);
-        //void core();
         void close(int argc, char* argv[]);
 
         std::ifstream in;

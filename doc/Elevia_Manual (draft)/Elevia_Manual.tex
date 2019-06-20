@@ -73,11 +73,11 @@
 	
 	\noindent For instance, an input file for test is
 	
-	\lstinputlisting[
-	style   = text,
-	caption = {\bf test.vie},
-	label   = {test.vie}
-	]{../test/test.vie}
+	%\lstinputlisting[
+	%style   = text,
+	%caption = {\bf H2O_STO3G.vie},
+	%label   = {H2O_STO3G.vie}
+	%]{../test/H2O_STO3G/H2O_STO3G.vie}
 	
 	\section{Method}
 	Only support RHF.
@@ -112,6 +112,7 @@
 		\item Determine whether the procedure has converged, i.e., determine whether the difference between two successive total energy is less than a threshold ($10^{-8}$). If the procedure has not converged, return to step (\ref{five}) with the new bond-order matrix. If the procedure has converged, then calculate and output the quantities of interest.
 	\end{enumerate}
 	
+	\cite{IQC} \cite{MQC} \cite{ERCMICG}
 	
 	\bibliography{Elevia_Manual.bib}
 
